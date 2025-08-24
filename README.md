@@ -1,11 +1,13 @@
-To install dependencies:
-```sh
-bun install
-```
+> Motivation is to learn React, Flexbox and SSR
 
-To run:
+> Select bun for fast typescript setup
+
+> Hono, for upgrade (express is not modern now)
+
+> Vite is for modern UI tooling and thankfully hono addon there for dev setup 
+
+install depeendancies, Start Backend & Frontend in one command:
 ```sh
 bun run dev
 ```
-
-open http://localhost:3000
+check http://localhost:5173
