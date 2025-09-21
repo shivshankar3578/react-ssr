@@ -1,4 +1,4 @@
-.pencil {
+.icon {
   opacity: 0;
   color: blue;
   cursor: pointer;
@@ -6,8 +6,20 @@
   transform: scaleX(-1);
 }
 
-td:hover .pencil {
+td:hover .icon {
   opacity: 1;
+  font-weight: bold;
+}
+
+.icon.active {
+  opacity: 1 !important;
+}
+
+.date-reset {
+  font-stretch: expanded;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: -3rem;
 }
 
 #root {
@@ -16,7 +28,7 @@ td:hover .pencil {
   flex-direction: column;
   max-width: 1280px;
   margin: 0 auto;
-  gap: 2rem;
+  /* gap: 2rem; */
 }
 
 /* Row for Form and View */
@@ -43,6 +55,7 @@ input {
   padding: 0.25rem;
   box-sizing: border-box;
   text-align: left;
+  padding-right: 1rem;
 }
 
 .error {
@@ -51,10 +64,81 @@ input {
   margin: 0;
 }
 
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  /* tell browser web support both theme */
+  color-scheme: light dark;
+  /* default light theme */
+  --bg: white;
+  --text: black;
+}
+
+html.dark {
+  /* will make native html tag dark */
+  color-scheme: dark;
+  --bg: darkgrey !important;
+  --text: white !important;
+}
+
+/* system dark theme override colors */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: darkgrey;
+    --text: white;
+  }
+}
+
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+
+a:hover {
+  color: #535bf2;
+}
+
 body {
   margin: 0;
   display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: var(--bg);
+  color: var(--text);
+  transition: background-color 0.3s, color 0.3s;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+
+button:hover {
+  border-color: #646cff;
+}
+
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
 }

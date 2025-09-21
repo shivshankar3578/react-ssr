@@ -1,19 +1,36 @@
 import { Hono } from 'hono'
-import { renderToString } from 'react-dom/server'
-import App from './web/app'
+import { serveStatic } from 'hono/bun'
+import { contextStorage } from 'hono/context-storage'
+import { logger } from 'hono/logger'
+import { requestId, RequestIdVariables } from 'hono/request-id'
 import { Html } from './web/template.html'
-import { now } from './web/app.types'
+import App from './web/app'
+import { renderToString } from 'react-dom/server'
+import { date } from './web/app.types'
 
-const app = new Hono()
+type Env = {
+  Variables: RequestIdVariables
+}
+const app = new Hono<Env>()
+app.use('*', requestId())
+app.use(contextStorage())
+
+app.use('/favicon.ico', serveStatic({ path: './public/favicon.ico' }))
+app.use(logger())
 
 app.get('/', (c) => {
-  const items = [{ title: "welcome to ssr", dueDate: now, dueDays: 0 }]
+  const items = [
+    { id: 1, title: "welcome to ssr", dueDate: date(), dueDays: 0 },
+    { id: 2, title: "doctor's visit", dueDate: date(2), dueDays: 2 }
+  ]
   const content = renderToString(<App items={items} />)
-  return c.html(renderToString(<Html content={content} data={items} > </Html>));
+  return c.html(renderToString(<Html content={content} data={items}></Html>));
 })
 
-app.get('/health', (c) => {
-  return c.json({ status: 200, msg: "server is running good" })
-})
+const port = parseInt(process.env.PORT!) || 3000
+console.log(`Running at http://localhost:${port}`)
 
-export default app
+export default {
+  port,
+  fetch: app.fetch
+};
